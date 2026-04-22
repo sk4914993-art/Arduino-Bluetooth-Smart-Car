@@ -59,6 +59,3 @@ The Bluetooth module receives commands from a mobile device and sends them to th
 
 ---
 
-👩‍💻 Author
-
-Somya Kumari

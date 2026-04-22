@@ -1,0 +1,73 @@
+#include <SoftwareSerial.h>
+
+SoftwareSerial BT(10, 11); // RX, TX
+
+// Motor pins
+int IN1 = 2;
+int IN2 = 3;
+int IN3 = 4;
+int IN4 = 5;
+int ENA = 6;
+int ENB = 9;
+
+char command;
+
+void setup() {
+  BT.begin(9600);
+  Serial.begin(9600);
+
+  pinMode(IN1, OUTPUT);
+  pinMode(IN2, OUTPUT);
+  pinMode(IN3, OUTPUT);
+  pinMode(IN4, OUTPUT);
+  pinMode(ENA, OUTPUT);
+  pinMode(ENB, OUTPUT);
+
+  analogWrite(ENA, 200); // Speed control
+  analogWrite(ENB, 200);
+}
+
+void loop() {
+  if (BT.available()) {
+    command = BT.read();
+    Serial.println(command);
+
+    switch (command) {
+
+      case 'F': // Forward
+        digitalWrite(IN1, HIGH);
+        digitalWrite(IN2, LOW);
+        digitalWrite(IN3, HIGH);
+        digitalWrite(IN4, LOW);
+        break;
+
+      case 'B': // Backward
+        digitalWrite(IN1, LOW);
+        digitalWrite(IN2, HIGH);
+        digitalWrite(IN3, LOW);
+        digitalWrite(IN4, HIGH);
+        break;
+
+      case 'L': // Left
+        digitalWrite(IN1, LOW);
+        digitalWrite(IN2, HIGH);
+        digitalWrite(IN3, HIGH);
+        digitalWrite(IN4, LOW);
+        break;
+
+      case 'R': // Right
+        digitalWrite(IN1, HIGH);
+        digitalWrite(IN2, LOW);
+        digitalWrite(IN3, LOW);
+        digitalWrite(IN4, HIGH);
+        break;
+
+      case 'S': // Stop
+        digitalWrite(IN1, LOW);
+        digitalWrite(IN2, LOW);
+        digitalWrite(IN3, LOW);
+        digitalWrite(IN4, LOW);
+        break;
+    }
+  }
+}
